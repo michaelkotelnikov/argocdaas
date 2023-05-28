@@ -8,5 +8,5 @@ roleRef:
   name: argocd-view
 subjects:
 - kind: ServiceAccount
-  name: {{ .Values.application.name }}
+  name: {{ .Values.application.name }}-enroller
   namespace: customer-argocd-controlplane
