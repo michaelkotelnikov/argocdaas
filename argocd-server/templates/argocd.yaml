@@ -68,14 +68,14 @@ spec:
     defaultPolicy: ''
     policy: |
       p, role:customer, clusters, get, *, allow
-      p, role:customer, applicationsets, michael/*, *, allow
+      p, role:customer, applicationsets, {{ .Values.application.name }}/*, *, allow
       p, role:customer, repositories, get, *, allow
-      p, role:customer, logs, get, michael/*, allow
-      p, role:customer, exec, create, michael/*, allow
-      p, role:customer, projects, get, michael, allow
-      p, role:customer, applications, michael/*, *, allow
+      p, role:customer, logs, get, {{ .Values.application.name }}/*, allow
+      p, role:customer, exec, create, {{ .Values.application.name }}/*, allow
+      p, role:customer, projects, get, {{ .Values.application.name }}, allow
+      p, role:customer, applications, {{ .Values.application.name }}/*, *, allow
 
-      g, michaels, role:customer
+      g, {{ .Values.group.name }}, role:customer
       g, system:cluster-admins, role:admin
       g, cluster-admins, role:admin
     scopes: '[groups]'

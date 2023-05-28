@@ -1,2 +1,5 @@
 application:
   name: nikita-gitops
+
+group:
+  name: michaels
