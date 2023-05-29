@@ -44,10 +44,37 @@ Whenever a user tries to view resources at in-cluster, it receives the next erro
 
 The solution only allows creation of resources in the designated \<application name> namespace on the managed cluster.
 
-If a user tries to create cluster-wide resources or namespaced resources in other namspaces on the managed cluster, the request will be denied by an RBAC policies at [AppProject spec.clusterResourceWhitelist](argocd-server/templates/appproject.yaml) and [AppProject spec.destinations](argocd-server/templates/appproject.yaml).
+If a user tries to create cluster-wide resources or namespaced resources in other namspaces on the managed cluster, the request will be denied by RBAC policies at [AppProject spec.clusterResourceWhitelist](argocd-server/templates/appproject.yaml) and [AppProject spec.destinations](argocd-server/templates/appproject.yaml).
 
-The user is able to provision resources at the \<application name> namespace thanks to the [RoleBinding](argocd-consumer/templates/rolebinding.yaml) resource that is associated with ArgoCD's service account on the managed cluster.
+The user is able to provision resources at the \<application name> namespace thanks to the [RoleBinding](argocd-consumer/templates/rolebinding.yaml) resource associated with ArgoCD's service account on the managed cluster.
 
 Whenever a user tries to deploy resources outside of the \<application name> namespace scope, it receives the next error -
 
-![](images/argocd-managedcluster-outside-namespace.png)
+![ArgoCD Remote Cluster RBAC](images/argocd-managedcluster-outside-namespace.png)
+
+### Scenario 4 - User can not view sensitive workload outside of the application namespace on managed cluster
+
+The solution only allows viewing resources in the designated \<application name> namespace on the managed cluster.
+
+If a user tries to view cluster-wide resources or namespaced resources in other namspaces on the managed cluster, the request will be denied by RBAC policies at [AppProject spec.clusterResourceWhitelist](argocd-server/templates/appproject.yaml) and [AppProject spec.destinations](argocd-server/templates/appproject.yaml).
+
+Whenever a user tries to view resources outside of the \<application name> namespace scope, it receives the next error -
+
+![ArgoCD Remote Cluster RBAC](images/argocd-managedcluster-outside-namespace.png)
+
+Note that the live manifest can not been seem when viewing the resource tab in the web interface -
+
+![ArgoCD Missing Live Manifest](images/live-manifest-remote-cluster.png)
+
+### Scenario 5 - User can not create sensitive namespaced resources inside the application namespace on managed cluster
+
+The solution disallows the creation of sensitive resources (ResourceQuota, NetworkAttachmentDefinition, etc.) in the designated \<application name> namespace on the managed cluster.
+
+If a user tries to create sensitive resources in the \<application name> namespace on the managed cluster, the request will be denied by RBAC policies at [RoleBinding](argocd-consumer/templates/rolebinding.yaml).
+
+Whenever a user tries to create sensitive resources in the <application name> namespace, it receives the next error -
+
+![ArgoCD deny sensitive resource creation](images/argocd-sensitive-resource-creation.png)
+
+Note that even though the Kubernetes API server disallows the creation of the resource, the user may still view the live resource contents (only applies to resources in the \<application name> namespace).
+
