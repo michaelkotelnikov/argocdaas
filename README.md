@@ -62,7 +62,7 @@ Whenever a user tries to view resources outside of the \<application name> names
 
 ![ArgoCD Remote Cluster RBAC](images/argocd-managedcluster-outside-namespace.png)
 
-Note that the live manifest can not been seem when viewing the resource tab in the web interface -
+Note that the live manifest can not been seen when viewing the resource tab in the web interface -
 
 ![ArgoCD Missing Live Manifest](images/live-manifest-remote-cluster.png)
 
