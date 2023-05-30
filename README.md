@@ -78,3 +78,6 @@ Whenever a user tries to create sensitive resources in the <application name> na
 
 Note that even though the Kubernetes API server disallows the creation of the resource, the user may still view the live resource contents (only applies to resources in the \<application name> namespace).
 
+### Scenario 6 - User ApplicationSet can not provision applications in projects outside of user's scope
+
+The solution disallows the creation of AppProjects by users. The ArgoCD instance is created with only one AppProject (default) in order to disallow potenital escelation between AppProjects in the environment. The default AppProject sets the scope for the resources the user is allowed to create.
